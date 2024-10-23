@@ -160,13 +160,13 @@ a:hover {
   display: flex;
 }
 .about-text {
-  margin-left: 0.4rem;
+  margin-left: 1rem;
 }
 .portrait-container {
   border: 3px solid rgba(0, 0, 0, 0.15);
-  border-radius: 1rem;
+  border-radius: 2rem;
   width: 380px;
-  height: 90px;
+  height: 120px;
   margin-top: 0.8rem;
   overflow: hidden; /* Ensures the image is clipped to match the container's border-radius */
 }
