@@ -4,18 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Is-This-Gergi?</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Nunito+Sans"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Montserrat"
+      href="https://fonts.googleapis.com/css?family=Poppins"
     />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Source+Code+Pro"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
     />
     <link rel="stylesheet" href="./app.css" />
     <script
@@ -27,90 +27,85 @@
   <body :class="{ 'dark': darkMode }" x-data="app()" x-init="init()">
     <div id="particles-js"></div>
     <div class="container">
-      <div class="search">
-        <input
-          id="search-input"
-          type="text"
-          placeholder="TODO: search has no real use case yet"
-          x-model="searchTerm"
-        />
-        <!-- 'X' button to clear the search input -->
-        <button
-          class="clear-button"
-          @click="clearSearch"
+      <div class="search-container">
+        <div class="search-plus-darkmode">
+          <div class="search">
+            <input
+              class="search-input"
+              type="text"
+              placeholder="TODO: search has no real use case yet"
+              x-model="searchTerm"
+            />
+            <button
+              class="clear-button"
+              @click="clearSearch"
+              x-show="searchTerm.length > 0"
+              x-transition:enter.duration.0ms
+              x-transition:leave.duration.0ms
+              aria-label="Clear search input"
+            >
+              <i class="uil uil-x"></i>
+            </button>
+          </div>
+          <button class="dark-mode-button" @click="toggleDarkMode()">
+            <i
+              class="uil uil-moon"
+              x-show="darkMode"
+              x-transition:enter.duration.300ms
+              x-transition:leave.duration.0ms
+            ></i>
+            <i
+              class="uil uil-sun"
+              x-show="!darkMode"
+              x-transition:enter.duration.300ms
+              x-transition:leave.duration.0ms
+            ></i>
+          </button>
+        </div>
+
+        <span
+          class="sub-comment"
           x-show="searchTerm.length > 0"
-          x-transition:enter.duration.0ms
-          x-transition:leave.duration.0ms
-          aria-label="Clear search input"
+          x-transition:enter.duration.500ms
+          x-transition:leave.duration.100ms
         >
-          &#x2716;
-          <!-- Unicode for 'X' symbol -->
-        </button>
-        <button class="dark-mode-button" @click="toggleDarkMode()">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            x-show="darkMode"
-            x-transition:enter.duration.300ms
-            x-transition:leave.duration.0ms
-          >
-            <circle cx="12" cy="12" r="10" fill="currentColor"></circle>
-            <circle cx="16" cy="12" r="8" fill="#021f19"></circle>
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            x-show="!darkMode"
-            x-transition:enter.duration.300ms
-            x-transition:leave.duration.0ms
-          >
-            <circle cx="12" cy="12" r="10" fill="currentColor"></circle>
-          </svg>
-        </button>
+          press [ESC] to cancel
+        </span>
       </div>
-      <span
-        class="sub-comment"
-        x-show="searchTerm.length > 0"
-        x-transition:enter.duration.300ms
-        x-transition:leave.duration.300ms
-      >
-        press [ESC] to cancel
-      </span>
+
       <div class="main-container">
         <div class="menu">
           <a
             href="#"
-            :class="{'inactive': !isVisible('home'), 'active': currentPage === 'home'}"
+            :class="{'menu-link': true, 'inactive': !isVisible('home'), 'active': currentPage === 'home'}"
             @click.prevent="setPage('home')"
           >
-            home
+            <i class="uil uil-estate"></i>
+            <span class="menu-link-tooltip">Home</span>
           </a>
           <a
             href="#"
-            :class="{'inactive': !isVisible('text'), 'active': currentPage === 'text'}"
+            :class="{'menu-link': true, 'inactive': !isVisible('text'), 'active': currentPage === 'text'}"
             @click.prevent="setPage('text')"
           >
-            text
+            <i class="uil uil-text-fields"></i>
+            <span class="menu-link-tooltip">Textual</span>
           </a>
           <a
             href="#"
-            :class="{'inactive': !isVisible('terminal'), 'active': currentPage === 'terminal'}"
+            :class="{'menu-link': true, 'inactive': !isVisible('terminal'), 'active': currentPage === 'terminal'}"
             @click.prevent="setPage('terminal')"
           >
-            terminal
+            <i class="uil uil-brackets-curly"></i>
+            <span class="menu-link-tooltip">Terminal</span>
           </a>
           <a
             href="#"
-            :class="{'inactive': !isVisible('keyboard'), 'active': currentPage === 'keyboard'}"
+            :class="{'menu-link': true, 'inactive': !isVisible('keyboard'), 'active': currentPage === 'keyboard'}"
             @click.prevent="setPage('keyboard')"
           >
-            keyboard
+            <i class="uil uil-keyboard"></i>
+            <span class="menu-link-tooltip">Keyboard</span>
           </a>
         </div>
 
@@ -118,54 +113,62 @@
           <div
             class="content-home"
             x-show="currentPage === 'home'"
-            x-transition
-            x-transition:enter.duration.500ms
-            x-transition:leave.duration.400ms
+            x-transition:enter="transition duration-500 delay-300 transform ease-in"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition duration-300 transform ease-in"
+            x-transition:leave-start="translate-x-0 opacity-100"
+            x-transition:leave-end="translate-x-full opacity-0"
           >
-            <div class="portrait-container">
-              <img src="./g.jpg" alt="Portrait" class="portrait-image" />
-            </div>
             <div class="home-texts">
-              <h1>Gergely, Horváth</h1>
+              <h1 id="welcome-typewriter"></h1>
+              <h1 id="welcome-name">Gergely, Horváth</h1>
               <h5>
                 <i class="fa fa-laptop" aria-hidden="true"></i>
                 WEB-/SOFTWARE DEVELOPER
                 <i class="fa fa-code" aria-hidden="true"></i>
               </h5>
-              <p class="justified">
+              <p>
                 A minimalistic page for a brief introduction to my profile, and
                 a little playground of mine.
               </p>
             </div>
+            <div class="portrait-container">
+              <img src="./g.jpg" alt="Portrait" class="portrait-image" />
+            </div>
           </div>
 
           <div
+            class="content-text"
             x-show="currentPage === 'text'"
-            x-transition
-            x-transition:enter.duration.500ms
-            x-transition:leave.duration.400ms
-            x-cloak
+            x-transition:enter="transition duration-500 delay-300 transform ease-in"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition duration-300 transform ease-in"
+            x-transition:leave-start="translate-x-0 opacity-100"
+            x-transition:leave-end="translate-x-full opacity-0"
           >
             <div class="content-about">
               <h2>About</h2>
               <div class="about-container">
-                <p class="justified" x-html="aboutDescription"></p>
+                <p x-html="aboutDescription"></p>
               </div>
             </div>
 
             <div class="content-career">
               <h2>Career</h2>
-              <p class="justified" x-html="careerDescription"></p>
+              <p x-html="careerDescription"></p>
             </div>
-            <div class="content-links pull-right">
-              <h2 class="pull-right">Links</h2>
-              <div class="pull-right">
+            <div class="content-links">
+              <h2>Links</h2>
+              <div>
                 <table>
                   <thead></thead>
                   <tbody>
                     <template x-for="lnk in links">
                       <tr>
-                        <td class="text-right">
+                        <td x-html="lnk[2]"></td>
+                        <td>
                           <a
                             x-bind:href="lnk[0]"
                             x-html="lnk[1]"
@@ -173,7 +176,6 @@
                             target="_blank"
                           ></a>
                         </td>
-                        <td x-html="lnk[2]"></td>
                       </tr>
                     </template>
                   </tbody>
@@ -183,11 +185,14 @@
           </div>
 
           <div
+            class="content-terminal"
             x-show="currentPage === 'terminal'"
-            x-transition
-            x-transition:enter.duration.500ms
-            x-transition:leave.duration.400ms
-            x-cloak
+            x-transition:enter="transition duration-500 delay-300 transform ease-in"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition duration-300 transform ease-in"
+            x-transition:leave-start="translate-x-0 opacity-100"
+            x-transition:leave-end="translate-x-full opacity-0"
           >
             <div class="terminal-container">
               <ul class="terminal-lines-list">
@@ -209,11 +214,14 @@
           </div>
 
           <div
+            class="content-keyboard"
             x-show="currentPage === 'keyboard'"
-            x-transition
-            x-transition:enter.duration.500ms
-            x-transition:leave.duration.400ms
-            x-cloak
+            x-transition:enter="transition duration-500 delay-300 transform ease-in"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition duration-300 transform ease-in"
+            x-transition:leave-start="translate-x-0 opacity-100"
+            x-transition:leave-end="translate-x-full opacity-0"
           >
             Coming soon... (soon? you sure?)
           </div>
@@ -235,6 +243,14 @@
         ],
         keyboard: ["keyboard", "coming soon"],
       };
+      const welcomePhrases = [
+        "Hi, I'm ",
+        "Szia, én vagyok",
+        "Hei, jeg er ",
+        "Hola, soy ",
+        "Bonjour, je suis ",
+        "Hallo, ich bin ",
+      ];
       const age = new Date().getFullYear() - 1990;
       const careerAge = new Date().getFullYear() - 2016;
       const emojiTexts = {
@@ -243,26 +259,30 @@
         it: ["IT", "&#x1F4BB;"],
       };
       const links = [
-        ["https://github.com/GergiH/", "GergiH", "<sup>@GitHub</sup>"],
+        [
+          "https://github.com/GergiH/",
+          "GergiH",
+          "<i class='uil uil-github'></i>",
+        ],
         [
           "https://www.linkedin.com/in/gergi-hrv/",
           "Gergely Horvath",
-          "<sup>@LinkedIn</sup>",
+          "<i class='uil uil-linkedin'></i>",
         ],
         [
           "https://github.com/IFRCGo/go-api/",
           "IFRC Go - API <small>[Django] (contributor)</small>",
-          "<sup>@GitHub</sup>",
+          "<i class='uil uil-github-alt'></i>",
         ],
         [
           "https://github.com/IFRCGo/go-frontend/",
           "IFRC Go - Frontend <small>[React] (contributor)</small>",
-          "<sup>@GitHub</sup>",
+          "<i class='uil uil-github-alt'></i>",
         ],
         [
           "https://gergih.github.io/portfolio-terminal/",
           "Old terminal personal page",
-          "<sup>@GitHub Pages</sup>",
+          "<i class='uil uil-window'></i>",
         ],
       ];
       const particlesConfig = {
@@ -339,10 +359,10 @@
           events: {
             onhover: {
               enable: true,
-              mode: "bubble",
+              mode: "repulse", // was bubble
             },
             onclick: {
-              enable: true,
+              enable: false, // was true
               mode: "repulse",
             },
             resize: true,
@@ -362,8 +382,8 @@
               speed: 3,
             },
             repulse: {
-              distance: 200,
-              duration: 0.4,
+              distance: 100,
+              duration: 0.2,
             },
             push: {
               particles_nb: 4,
@@ -375,6 +395,15 @@
         },
         retina_detect: true,
       };
+
+      // Changing welcome text setup
+      const typewriterElement = document.getElementById("welcome-typewriter");
+      // Speed settings
+      const typingSpeed = 220;
+      const delayBetweenPhrases = 2000;
+      let phraseIndex = 0;
+      let letterIndex = 0;
+      let isDeleting = false;
 
       function app() {
         return {
@@ -388,10 +417,10 @@
           commandInput: "",
           descriptions: {
             about(old, flag) {
-              return `A <strong>${age} years</strong> ${old} software developer from ${flag}. Basically interested in any topic, just to name a few: programming (obviously), cooking, fitness, astrology, languages, psychology. When not coding, he's either watching random animal videos, gaming, having a drink with friends, or watching sports.`;
+              return `A <strong>${age} years</strong> ${old} software developer from ${flag}. Basically interested in any topic, just to name a few: programming (obviously), cooking, fitness, astrology, languages, psychology.<br/><br/>When not coding, he's either watching random animal videos, gaming, having a drink with friends, or watching sports.`;
             },
             career(it) {
-              return `<strong>${careerAge} years</strong> of ${it} experience, mainly developing web applications, web services, console applications, REST APIs - using the following languages, frameworks, tools (stronger to weaker + tools): C#, .NET (v4.5 -> current), JavaScript, Python, MSSQL, Blazor, PostgreSQL, React, Django, TypeScript, Angular, Vue, Visual Studio, VSCode, Vim, GitHub, TFS, Azure DevOps.`;
+              return `<strong>${careerAge} years</strong> of ${it} experience, mainly developing web applications, web services, console applications, REST APIs - using the following languages, frameworks, tools (stronger to weaker + tools):<br/>C#, .NET (v4.5 -> current), JavaScript, Python, MSSQL, Blazor, PostgreSQL, React, Django, TypeScript, Angular, Vue, Visual Studio, VSCode, Vim, GitHub, TFS, Azure DevOps.`;
             },
           },
           setPage(page) {
@@ -467,6 +496,49 @@
               : "#888";
             particlesJS("particles-js", particlesConfig);
           },
+          typewriter() {
+            const currentPhrase = welcomePhrases[phraseIndex];
+
+            // Update the h1 with the current substring
+            if (isDeleting) {
+              letterIndex--;
+              // Remove the last character
+              typewriterElement.innerHTML = currentPhrase
+                .substring(0, letterIndex)
+                .split("")
+                .map((char) => `<span>${char}</span>`)
+                .join("");
+            } else {
+              // Add new character
+              letterIndex++;
+              // Create a new span for the new character
+              const newChar = currentPhrase[letterIndex - 1];
+              const span = document.createElement("span");
+              span.textContent = newChar;
+              span.className = "fade-in"; // Add a class for the fade-in effect
+              typewriterElement.appendChild(span);
+            }
+
+            // Handle typing or deleting
+            if (!isDeleting && letterIndex === currentPhrase.length) {
+              setTimeout(() => {
+                isDeleting = true;
+              }, delayBetweenPhrases);
+            } else if (isDeleting && letterIndex === 0) {
+              isDeleting = false;
+              phraseIndex = (phraseIndex + 1) % welcomePhrases.length;
+              // Clear the innerHTML for the next phrase
+              typewriterElement.innerHTML = "";
+            }
+
+            // Adjust the typing speed for a smoother effect
+            const currentTypingSpeed = isDeleting
+              ? typingSpeed / 2
+              : typingSpeed;
+
+            // Recursive call to continue typing
+            setTimeout(this.typewriter.bind(this), currentTypingSpeed);
+          },
           init() {
             if (
               window.matchMedia &&
@@ -486,6 +558,8 @@
               ? "#fff"
               : "#888";
             particlesJS("particles-js", particlesConfig);
+
+            this.typewriter();
           },
         };
       }
