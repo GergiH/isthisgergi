@@ -6,28 +6,34 @@
     <title>Is-This-Gergi?</title>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      href="https://fonts.googleapis.com/css?family=Nunito+Sans"
     />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Montserrat"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Code+Pro"
+    />
     <link rel="stylesheet" href="./app.css" />
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
+    <script src="particles.min.js"></script>
   </head>
   <body :class="{ 'dark': darkMode }" x-data="app()" x-init="init()">
+    <div id="particles-js"></div>
     <div class="container">
       <div class="search">
         <input
           id="search-input"
           type="text"
-          placeholder="&#xF002; TODO: search has no real use case yet"
+          placeholder="TODO: search has no real use case yet"
           x-model="searchTerm"
-          @input="filterMenu"
         />
-          <!-- 'X' button to clear the search input -->
+        <!-- 'X' button to clear the search input -->
         <button
           class="clear-button"
           @click="clearSearch"
@@ -36,23 +42,35 @@
           x-transition:leave.duration.0ms
           aria-label="Clear search input"
         >
-          &#x2716; <!-- Unicode for 'X' symbol -->
+          &#x2716;
+          <!-- Unicode for 'X' symbol -->
         </button>
         <button class="dark-mode-button" @click="toggleDarkMode()">
-          <i
-            class="fa fa-moon-o"
-            aria-hidden="true"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
             x-show="darkMode"
             x-transition:enter.duration.300ms
             x-transition:leave.duration.0ms
-          ></i>
-          <i
-            class="fa fa-sun-o"
-            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" fill="currentColor"></circle>
+            <circle cx="16" cy="12" r="8" fill="#021f19"></circle>
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
             x-show="!darkMode"
             x-transition:enter.duration.300ms
             x-transition:leave.duration.0ms
-          ></i>
+          >
+            <circle cx="12" cy="12" r="10" fill="currentColor"></circle>
+          </svg>
         </button>
       </div>
       <span
@@ -97,20 +115,27 @@
 
         <div class="content">
           <div
+            class="content-home"
             x-show="currentPage === 'home'"
             x-transition
             x-transition:enter.duration.500ms
             x-transition:leave.duration.400ms
           >
-            <h1>Gergely, Horváth</h1>
-            <h5>
-              <i class="fa fa-laptop" aria-hidden="true"></i>
-              WEB-/SOFTWARE DEVELOPER
-              <i class="fa fa-code" aria-hidden="true"></i>
-            </h5>
-            <p class="justified">
-              A minimalistic page for a brief introduction to my profile, and a little playground of mine.
-            </p>
+            <div class="portrait-container">
+              <img src="./g.jpg" alt="Portrait" class="portrait-image" />
+            </div>
+            <div class="home-texts">
+              <h1>Gergely, Horváth</h1>
+              <h5>
+                <i class="fa fa-laptop" aria-hidden="true"></i>
+                WEB-/SOFTWARE DEVELOPER
+                <i class="fa fa-code" aria-hidden="true"></i>
+              </h5>
+              <p class="justified">
+                A minimalistic page for a brief introduction to my profile, and
+                a little playground of mine.
+              </p>
+            </div>
           </div>
 
           <div
@@ -120,25 +145,40 @@
             x-transition:leave.duration.400ms
             x-cloak
           >
-            <h2>About</h2>
-            <div class="about-container">
-              <div class="portrait-container">
-                <img src="./g.jpg" alt="Portrait" class="portrait-image" />
+            <div class="content-about">
+              <h2>About</h2>
+              <div class="about-container">
+                <p class="justified" x-html="aboutDescription"></p>
               </div>
-              <p class="justified about-text" x-html="aboutDescription"></p>
             </div>
-            <h2>Career</h2>
-            <p class="justified" x-html="careerDescription"></p>
-            <h2>Links</h2>
-            <p class="justified">
-                <ul class="links-list">
+
+            <div class="content-career">
+              <h2>Career</h2>
+              <p class="justified" x-html="careerDescription"></p>
+            </div>
+            <div class="content-links pull-right">
+              <h2 class="pull-right">Links</h2>
+              <div class="pull-right">
+                <table>
+                  <thead></thead>
+                  <tbody>
                     <template x-for="lnk in links">
-                        <li>
-                            <a x-bind:href="lnk[1]" x-html="lnk[0]" class="link" target="_blank"></a>
-                        </li>
+                      <tr>
+                        <td class="text-right">
+                          <a
+                            x-bind:href="lnk[0]"
+                            x-html="lnk[1]"
+                            class="link"
+                            target="_blank"
+                          ></a>
+                        </td>
+                        <td x-html="lnk[2]"></td>
+                      </tr>
                     </template>
-                </ul>
-            </p>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
           <div
@@ -155,7 +195,7 @@
                 </template>
               </ul>
               <div class="terminal-input-container">
-                <span class="terminal-input-arrow">></span>
+                <span class="terminal-input-arrow">>&nbsp;</span>
                 <input
                   type="text"
                   class="terminal-input"
@@ -184,8 +224,15 @@
       const pageTags = {
         home: ["home"],
         text: ["text", "about", "career", "links", "github", "linkedin"],
-        terminal: ["terminal", "about", "links", "github", "linkedin"],
-        keyboard: ["keyboard", "coming soon"]
+        terminal: [
+          "terminal",
+          "about",
+          "career",
+          "links",
+          "github",
+          "linkedin",
+        ],
+        keyboard: ["keyboard", "coming soon"],
       };
       const age = new Date().getFullYear() - 1990;
       const careerAge = new Date().getFullYear() - 2016;
@@ -194,14 +241,139 @@
         hungary: ["Hungary", "&#x1F1ED;&#x1F1FA;"],
         it: ["IT", "&#x1F4BB;"],
       };
-      // Could be a dictionary/map if more attributes are needed, like 'isOpenSource' or something
       const links = [
-        ["&#xf09b; GitHub", "https://github.com/GergiH/"],
-        ["&#xf0e1; LinkedIn", "https://www.linkedin.com/in/gergi-hrv/"],
-        ["&#xf233; IFRC Go - API (contributor)", "https://github.com/IFRCGo/go-api/"],
-        ["&#xf13b; IFRC Go - Frontend (contributor)", "https://github.com/IFRCGo/go-frontend/"],
-        ["&#xf11c; Old terminal personal page", "https://gergih.github.io/portfolio-terminal/"]
+        ["https://github.com/GergiH/", "GergiH", "<sup>@GitHub</sup>"],
+        [
+          "https://www.linkedin.com/in/gergi-hrv/",
+          "Gergely Horvath",
+          "<sup>@LinkedIn</sup>",
+        ],
+        [
+          "https://github.com/IFRCGo/go-api/",
+          "IFRC Go - API <small>[Django] (contributor)</small>",
+          "<sup>@GitHub</sup>",
+        ],
+        [
+          "https://github.com/IFRCGo/go-frontend/",
+          "IFRC Go - Frontend <small>[React] (contributor)</small>",
+          "<sup>@GitHub</sup>",
+        ],
+        [
+          "https://gergih.github.io/portfolio-terminal/",
+          "Old terminal personal page",
+          "<sup>@GitHub Pages</sup>",
+        ],
       ];
+      const particlesConfig = {
+        particles: {
+          number: {
+            value: 200,
+            density: {
+              enable: true,
+              value_area: 800,
+            },
+          },
+          color: {
+            value: "#fff",
+          },
+          shape: {
+            type: "circle",
+            stroke: {
+              width: 0,
+              color: "#000000",
+            },
+            polygon: {
+              nb_sides: 5,
+            },
+            image: {
+              src: "img/github.svg",
+              width: 100,
+              height: 100,
+            },
+          },
+          opacity: {
+            value: 0.5,
+            random: true,
+            anim: {
+              enable: false,
+              speed: 1,
+              opacity_min: 0.1,
+              sync: false,
+            },
+          },
+          size: {
+            value: 6,
+            random: true,
+            anim: {
+              enable: false,
+              speed: 40,
+              size_min: 0.1,
+              sync: false,
+            },
+          },
+          line_linked: {
+            enable: false,
+            distance: 500,
+            color: "#ffffff",
+            opacity: 0.4,
+            width: 2,
+          },
+          move: {
+            enable: true,
+            speed: 1,
+            direction: "bottom",
+            random: false,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+            attract: {
+              enable: false,
+              rotateX: 600,
+              rotateY: 0,
+            },
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: {
+              enable: true,
+              mode: "bubble",
+            },
+            onclick: {
+              enable: true,
+              mode: "repulse",
+            },
+            resize: true,
+          },
+          modes: {
+            grab: {
+              distance: 400,
+              line_linked: {
+                opacity: 0.5,
+              },
+            },
+            bubble: {
+              distance: 400,
+              size: 4,
+              duration: 0.3,
+              opacity: 1,
+              speed: 3,
+            },
+            repulse: {
+              distance: 200,
+              duration: 0.4,
+            },
+            push: {
+              particles_nb: 4,
+            },
+            remove: {
+              particles_nb: 2,
+            },
+          },
+        },
+        retina_detect: true,
+      };
 
       function app() {
         return {
@@ -227,48 +399,43 @@
           },
           get aboutDescription() {
             // Need to handle emoji texts here because 'this' has a different scope inside the 'descriptions' functions
-            const old = this.isEmoji
-              ? emojiTexts.old[1]
-              : emojiTexts.old[0];
+            const old = this.isEmoji ? emojiTexts.old[1] : emojiTexts.old[0];
             const flag = this.isEmoji
               ? emojiTexts.hungary[1]
               : emojiTexts.hungary[0];
             return this.descriptions.about(old, flag);
           },
           get careerDescription() {
-            const it = this.isEmoji
-              ? emojiTexts.it[1]
-              : emojiTexts.it[0];
+            const it = this.isEmoji ? emojiTexts.it[1] : emojiTexts.it[0];
             return this.descriptions.career(it);
           },
           get linksForTerminal() {
             let html = "<ul>";
-            links.forEach(link => {
+            links.forEach((link) => {
               html += `<li><a href="${link[1]}" target="_blank">${link[0]}</a></li>`;
             });
             html += "</ul>";
 
             return html;
           },
-          // Method to handle terminal commands
           handleCommand() {
             const command = this.commandInput.trim();
 
             if (command === "clear") {
               this.terminalLines = [];
             } else if (command) {
-              // Add the command to the terminal and simulate a response
               this.terminalLines.push(`> ${command}`);
-              this.processCommand(command); // Handle other commands
+              this.processCommand(command);
             }
 
-            this.commandInput = ""; // Clear the input field
+            this.commandInput = "";
           },
-          // Method to simulate processing various commands
           processCommand(command) {
             switch (command) {
               case "help":
-                this.terminalLines.push("Available commands: about, career, links, help, clear");
+                this.terminalLines.push(
+                  "Available commands: <strong>about, career, links, help, clear</strong>"
+                );
                 break;
               case "about":
                 this.terminalLines.push(this.aboutDescription);
@@ -284,21 +451,20 @@
             }
           },
           isVisible(page) {
-            // Check if any tag for the page includes the current search term
             const tags = pageTags[page] || [];
             return tags.some((tag) =>
               tag.includes(this.searchTerm.toLowerCase())
             );
-          },
-          filterMenu() {
-            // This function can be expanded if needed
-            console.log(`Filtering menu for: ${this.searchTerm}`); // Log the current search term
           },
           clearSearch() {
             this.searchTerm = "";
           },
           toggleDarkMode() {
             this.darkMode = !this.darkMode;
+            particlesConfig.particles.color.value = this.darkMode
+              ? "#fff"
+              : "#888";
+            particlesJS("particles-js", particlesConfig);
           },
           init() {
             if (
@@ -307,12 +473,18 @@
             ) {
               this.darkMode = true;
             }
-            // Add global keydown event listener
+
             document.addEventListener("keydown", (event) => {
               if (event.key === "Escape") {
-                this.clearSearch(); // Clear search input on ESC key press
+                this.clearSearch();
               }
             });
+
+            // Particles.js
+            particlesConfig.particles.color.value = this.darkMode
+              ? "#fff"
+              : "#888";
+            particlesJS("particles-js", particlesConfig);
           },
         };
       }

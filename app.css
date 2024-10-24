@@ -1,7 +1,9 @@
 /*
 Colors:
 beige - f5eddc
-dark pinegreen - 0c4a36
+darker beige - 938d86
+dark pinegreen - 03332a
+darker pinegreen - 021f19
 dark gray - 444
 ice blue - b4d9f9
 ice blue:hover - 77a7c9
@@ -17,36 +19,39 @@ body {
   background-color: #f5eddc;
   color: #444;
   font-family: "Nunito Sans", sans-serif;
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1rem;
   margin: 0;
 }
 h1 {
   font-family: Montserrat, sans-serif;
-  font-weight: 200;
+  font-weight: 700;
+  margin-top: 0.5rem;
 }
 h2,
 h3,
 h4 {
   font-family: Montserrat, sans-serif;
-  font-weight: 200;
+  font-weight: 600;
   margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 h5,
 h6 {
   font-family: Montserrat, sans-serif;
   font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 input[type="text"] {
   border-radius: 1.4rem;
-  font-family: "Nunito Sans", sans-serif, FontAwesome;
+  font-family: "Nunito Sans", sans-serif;
   font-size: 0.9rem;
 }
 input[type="text"]:focus {
-  outline: 1px solid #0c4a36;
+  outline: 1px solid #03332a;
 }
 i {
-  color: #0c4a3688;
+  color: #03332a88;
 }
 a {
   color: #235f93;
@@ -58,9 +63,16 @@ a:hover {
 .justified {
   text-align: justify;
 }
+.text-right {
+  text-align: right;
+}
+.pull-right {
+  float: right;
+  clear: both;
+}
 .container {
   display: flex;
-  height: 100vh;
+  height: 100%;
   flex-direction: column;
 }
 .search {
@@ -71,8 +83,8 @@ a:hover {
   width: 100%;
 }
 #search-input {
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.25);
   color: #444;
   flex: 1;
   padding: 0.6rem;
@@ -122,19 +134,23 @@ a:hover {
   flex: 1;
   align-items: center;
   flex-direction: column;
-  max-width: 1480px;
+  max-width: 1020px;
+  width: 100%;
 }
 .menu {
   display: flex;
   flex-direction: row;
+  flex: 1;
   justify-content: center; /* Center the menu items vertically */
+  max-width: 100%;
   padding: 1rem;
   text-align: right;
+  box-sizing: border-box;
 }
 .menu a {
   color: #444;
   display: block;
-  font-family: Montserrat, sans-serif, FontAwesome;
+  font-family: Montserrat, sans-serif;
   font-weight: 700;
   padding: 10px;
   text-decoration: none;
@@ -152,43 +168,65 @@ a:hover {
   pointer-events: none;
 }
 .content {
-  flex-grow: 1;
+  box-sizing: border-box;
+  flex: 1;
+  max-width: 100%;
   padding: 1rem;
   width: 100%;
+}
+.content-about {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  border-radius: 2rem;
+  padding: 1.2rem;
+}
+.content-career {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    300deg,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  border-radius: 2rem;
+  padding: 1.2rem;
+  margin-top: 2rem;
+}
+.content-links {
+  margin-top: 2rem;
 }
 .about-container {
   display: flex;
 }
-.about-text {
-  margin-left: 1rem;
-}
 .portrait-container {
   border: 3px solid rgba(0, 0, 0, 0.15);
   border-radius: 2rem;
-  width: 380px;
-  height: 120px;
-  margin-top: 0.8rem;
-  overflow: hidden; /* Ensures the image is clipped to match the container's border-radius */
+  height: 160px;
+  margin: 0.5rem 1.5rem 0.5rem 0.5rem;
+  overflow: hidden;
 }
 .portrait-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the image covers the container without distortion */
-  object-position: top; /* Aligns the image to the top */
+  object-fit: cover;
+  object-position: top;
 }
 .links-list {
   list-style: none;
   padding-left: 0;
 }
 .link {
-  font-family: "Nunito Sans", sans-serif, FontAwesome;
+  font-family: "Nunito Sans", sans-serif;
 }
 .terminal-container {
   background-color: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
   color: #444;
-  font-family: "Source Code Pro", monospace, FontAwesome;
+  font-family: "Source Code Pro", monospace;
   font-size: 14px;
   padding: 0.8rem;
   width: 100%;
@@ -207,8 +245,8 @@ a:hover {
   border: none;
   border-radius: 0;
   background-color: rgba(0, 0, 0, 0);
-  color: #0c4a36;
-  font-family: "Source Code Pro", monospace, FontAwesome !important;
+  color: #03332a;
+  font-family: "Source Code Pro", monospace !important;
   font-size: 14px !important;
   outline: none;
 }
@@ -217,12 +255,21 @@ a:hover {
   border-radius: 0;
 }
 .terminal-input-arrow {
-  color: #0c4a36;
+  color: #03332a;
+}
+.content-home {
+  display: flex;
+  flex-direction: row;
+}
+
+.home-texts {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Dark mode */
 body.dark {
-  background-color: #0c4a36;
+  background-color: #03332a;
   color: #f5eddc;
 }
 .dark i {
@@ -235,7 +282,7 @@ body.dark {
   color: #f5eddcbb;
 }
 .dark .menu {
-  background-color: #0c4a36;
+  background-color: #03332a;
   color: #f5eddc;
 }
 .dark .menu a {
@@ -243,7 +290,7 @@ body.dark {
   font-weight: 700 !important;
 }
 .dark .menu a:hover {
-  background: #0c4a36;
+  background: #03332a;
 }
 .dark .menu a.inactive {
   color: #938e83;
@@ -269,19 +316,38 @@ body.dark {
 .dark .terminal-input {
   color: #b4d9f9;
 }
+.dark .content-about {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+.dark .content-career {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    300deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
 
 @media (min-width: 641px) {
   .main-container {
+    align-items: flex-start;
     flex-direction: row;
     margin: auto;
   }
   .content {
-    padding: 3rem;
-    min-width: 600px;
+    padding: 1.5rem;
+    flex: 1;
+    max-width: 75%;
   }
   .menu {
     flex-direction: column;
-    min-width: 25%;
+    flex: 1;
+    max-width: 25%;
   }
   .menu a {
     transform-origin: right;
@@ -298,4 +364,21 @@ body.dark {
   .terminal-container {
     max-width: 1000px;
   }
+}
+
+/* Particles JS */
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #f5eddc;
+  background-image: url("");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  z-index: -2;
+}
+
+.dark #particles-js {
+  background-color: #03332a;
 }
