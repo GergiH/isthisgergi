@@ -222,7 +222,7 @@ a:hover {
   border-radius: 2rem;
   min-width: 110px;
   height: 180px;
-  margin: 0.5rem 1.5rem 0.5rem 0.5rem;
+  margin: 0.5rem;
   overflow: hidden;
 }
 .portrait-image {
@@ -279,15 +279,12 @@ a:hover {
   display: flex;
   flex-direction: row;
   position: relative;
-  width: 93%;
 }
 .content-text {
   position: relative;
-  width: 93%;
 }
 .content-terminal {
   position: relative;
-  width: 93%;
 }
 .home-texts {
   display: flex;
