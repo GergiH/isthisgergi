@@ -159,7 +159,7 @@ a:hover {
   flex-direction: row;
   flex: 1;
   max-width: 100%;
-  padding: 1rem;
+  padding: 0.25rem;
   text-align: right;
   box-sizing: border-box;
   border-bottom: 1px solid #66666644;
@@ -172,14 +172,7 @@ a:hover {
   padding: 10px;
   text-decoration: none;
   transition: transform 0.2s;
-  /* transform-origin: top; */
 }
-/* .menu a:hover {
-  transform: scale(1.2);
-}
-.menu a.active {
-  transform: scale(1.2);
-} */
 .menu a.inactive {
   color: #aaa;
   pointer-events: none;
@@ -305,7 +298,7 @@ a:hover {
   opacity: 1;
 }
 .menu-link > i {
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
 .fade-in {
   opacity: 0; /* Start hidden */
@@ -477,6 +470,7 @@ h6 {
     flex-direction: column;
     flex: 1;
     max-width: 25%;
+    padding: 1rem;
     border-right: 1px solid #66666644;
     border-bottom: none;
   }
