@@ -1,7 +1,8 @@
 /*
 Colors:
 beige - f5eddc
-muted beige - d1caba
+muted beige - d7d0c0
+more muted beige - bfb8a9
 darker beige - 938d86
 dark pinegreen - 03332a
 darker pinegreen - 021f19
@@ -26,7 +27,7 @@ body {
   padding-bottom: 2rem;
 }
 p {
-  font-size: 0.94rem;
+  color: #666;
 }
 h1 {
   font-family: Poppins, sans-serif;
@@ -44,7 +45,7 @@ h4 {
 }
 h5,
 h6 {
-  color: #444444aa;
+  color: #444444;
   font-family: Poppins, sans-serif;
   font-weight: 600;
   margin-bottom: 0.5rem;
@@ -161,6 +162,7 @@ a:hover {
   padding: 1rem;
   text-align: right;
   box-sizing: border-box;
+  border-bottom: 1px solid #66666644;
 }
 .menu a {
   color: #444;
@@ -191,36 +193,27 @@ a:hover {
   position: relative;
 }
 .content-about {
-  background: rgb(0, 0, 0);
-  background: linear-gradient(
-    160deg,
-    rgba(0, 0, 0, 0.15) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  border-radius: 2rem;
   padding: 1.2rem;
 }
 .content-career {
-  background: rgb(0, 0, 0);
-  background: linear-gradient(
-    300deg,
-    rgba(0, 0, 0, 0.15) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  border-radius: 2rem;
   padding: 1.2rem;
-  margin-top: 2rem;
 }
 .content-links {
-  margin-top: 2rem;
+  padding: 1.2rem;
 }
 .about-container {
   display: flex;
 }
+.about-container > p {
+  color: #666;
+}
+.content-career > p {
+  color: #666;
+}
 .portrait-container {
   border: 3px solid rgba(0, 0, 0, 0.15);
-  border-radius: 2rem;
-  min-width: 110px;
+  border-radius: 1rem;
+  min-width: 92px;
   height: 180px;
   margin: 0.5rem;
   overflow: hidden;
@@ -243,7 +236,7 @@ a:hover {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
   color: #444;
-  font-family: "Source Code Pro", monospace;
+  font-family: "Roboto Mono", monospace;
   font-size: 14px;
   padding: 0.8rem;
   width: 100%;
@@ -264,7 +257,7 @@ a:hover {
   border-radius: 0;
   background-color: rgba(0, 0, 0, 0);
   color: #03332a;
-  font-family: "Source Code Pro", monospace !important;
+  font-family: "Roboto Mono", monospace !important;
   font-size: 14px !important;
   outline: none;
 }
@@ -323,64 +316,73 @@ a:hover {
   opacity: 1; /* Fully visible */
 }
 
-#welcome-typewriter {
+.welcome-typewriter {
+  border-right: 2px solid #57b9ff;
   color: #666;
   font-weight: 400;
+  font-family: "Roboto Mono", monospace;
+  font-size: 1.5rem;
   white-space: nowrap;
   overflow: hidden;
   width: fit-content;
   margin-bottom: 0;
+  white-space: nowrap;
 }
-#welcome-typewriter::after {
-  color: #57b9ff;
-  content: "|";
-  position: absolute;
+.welcome-typewriter-container {
+  display: block;
+  width: fit-content;
+  min-height: 42px;
+}
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes deleting {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}
+@keyframes pause {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes blink {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #57b9ff;
+  }
+}
+
+.blinking {
+  animation: blink 0.8s step-end infinite;
+}
+.skillcard-container {
+  width: 100%;
+}
+.skillcard {
+  padding: 0.25rem 0.75rem;
+  background-color: #444;
+  border-radius: 0.2rem;
   display: inline-block;
-  animation: blink 1s ease-in-out infinite;
-}
-@-webkit-keyframes blink {
-  0% {
-    opacity: 0%;
-  }
-  50% {
-    opacity: 100%;
-  }
-  100% {
-    opacity: 0%;
-  }
-}
-@-moz-keyframes blink {
-  0% {
-    opacity: 0%;
-  }
-  50% {
-    opacity: 100%;
-  }
-  100% {
-    opacity: 0%;
-  }
-}
-@-ms-keyframes blink {
-  0% {
-    opacity: 0%;
-  }
-  50% {
-    opacity: 100%;
-  }
-  100% {
-    opacity: 0%;
-  }
-}
-@-o-keyframes blink {
-  0% {
-    opacity: 0%;
-  }
-  50% {
-    opacity: 100%;
-  }
-  100% {
-    opacity: 0%;
-  }
+  font-size: 0.8rem;
+  color: #f5eddc;
+  margin-right: 0.5rem;
+  margin-top: 0.2rem;
+  white-space: nowrap;
 }
 #welcome-name {
   margin-top: 0;
@@ -398,7 +400,7 @@ body.dark {
 }
 .dark h5,
 h6 {
-  color: #d1cabaaa;
+  color: #d7d0c0;
 }
 .dark .search-input {
   color: #f5eddc;
@@ -408,6 +410,7 @@ h6 {
 }
 .dark .menu {
   color: #f5eddc;
+  border-bottom: 1px solid #d7d0c044;
 }
 .dark .menu a {
   color: #f5eddc;
@@ -440,27 +443,21 @@ h6 {
 .dark .terminal-input {
   color: #b4d9f9;
 }
-.dark .content-about {
-  background: rgb(255, 255, 255);
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-}
-.dark .content-career {
-  background: rgb(255, 255, 255);
-  background: linear-gradient(
-    300deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
+.dark p {
+  color: #bfb8a9;
 }
 .dark .menu-link-tooltip {
-  color: #d1caba;
+  color: #d7d0c0;
 }
-.dark #welcome-typewriter {
-  color: #d1caba;
+.dark .welcome-typewriter {
+  color: #d7d0c0;
+}
+.dark .portrait-container {
+  border: 3px solid rgba(245, 237, 220, 0.15);
+}
+.dark .skillcard {
+  background-color: #d7d0c0;
+  color:#021f19;
 }
 
 @media (min-width: 641px) {
@@ -481,9 +478,11 @@ h6 {
     flex: 1;
     max-width: 25%;
     border-right: 1px solid #66666644;
+    border-bottom: none;
   }
   .dark .menu {
-    border-right: 1px solid #d1caba44;
+    border-right: 1px solid #d7d0c044;
+    border-bottom: none;
   }
   .menu a {
     transform-origin: right;

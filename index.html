@@ -11,7 +11,7 @@
     />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Source+Code+Pro"
+      href="https://fonts.googleapis.com/css?family=Roboto+Mono"
     />
     <link
       rel="stylesheet"
@@ -121,7 +121,9 @@
             x-transition:leave-end="translate-x-full opacity-0"
           >
             <div class="home-texts">
-              <h1 id="welcome-typewriter"></h1>
+              <div class="welcome-typewriter-container">
+                <h1 class="welcome-typewriter"></h1>
+              </div>
               <h1 id="welcome-name">Gergely Horváth</h1>
               <h5>
                 <i class="fa fa-laptop" aria-hidden="true"></i>
@@ -244,12 +246,12 @@
         keyboard: ["keyboard", "coming soon"],
       };
       const welcomePhrases = [
-        "Hi, I'm ",
+        "Hi, I am",
         "Szia, én vagyok",
-        "Hei, jeg er ",
-        "Hola, soy ",
-        "Bonjour, je suis ",
-        "Hallo, ich bin ",
+        "Hei, jeg er",
+        "Hola, soy",
+        "Bonjour, je suis",
+        "Hallo, ich bin",
       ];
       const age = new Date().getFullYear() - 1990;
       const careerAge = new Date().getFullYear() - 2016;
@@ -285,6 +287,27 @@
           "<i class='uil uil-window'></i>",
         ],
       ];
+      const skills = [
+        "C#",
+        ".NET (v4.5 -> current)",
+        "JavaScript",
+        "Python",
+        "MSSQL",
+        "Blazor",
+        "PostgreSQL",
+        "React",
+        "Django",
+        "TypeScript",
+        "Angular",
+        "Vue",
+        "Visual Studio",
+        "VSCode",
+        "Vim",
+        "GitHub",
+        "TFS",
+        "Azure DevOps",
+      ];
+
       const particlesConfig = {
         particles: {
           number: {
@@ -306,11 +329,6 @@
             polygon: {
               nb_sides: 5,
             },
-            image: {
-              src: "img/github.svg",
-              width: 100,
-              height: 100,
-            },
           },
           opacity: {
             value: 0.5,
@@ -323,7 +341,7 @@
             },
           },
           size: {
-            value: 6,
+            value: 3,
             random: true,
             anim: {
               enable: false,
@@ -376,7 +394,7 @@
             },
             bubble: {
               distance: 400,
-              size: 4,
+              size: 3,
               duration: 0.3,
               opacity: 1,
               speed: 3,
@@ -397,18 +415,15 @@
       };
 
       // Changing welcome text setup
-      const typewriterElement = document.getElementById("welcome-typewriter");
+      const typewriterElement =
+        document.getElementsByClassName("welcome-typewriter")[0];
       // Speed settings
-      const typingSpeed = 220;
-      const delayBetweenPhrases = 2000;
-      let phraseIndex = 0;
-      let letterIndex = 0;
-      let isDeleting = false;
+      const typingSpeed = 200; // milliseconds per character
+      const pauseDuration = 2000; // milliseconds to pause after typing
+      const deletingSpeed = 70; // milliseconds per character deletion
 
       function app() {
         return {
-          transitionRun: 0,
-          transitionDone: true,
           currentPage: "home",
           searchTerm: "",
           darkMode: false,
@@ -419,8 +434,11 @@
             about(old, flag) {
               return `A <strong>${age} years</strong> ${old} software developer from ${flag}. Basically interested in any topic, just to name a few: programming (obviously), cooking, fitness, astrology, languages, psychology.<br/><br/>When not coding, he's either watching random animal videos, gaming, having a drink with friends, or watching sports.`;
             },
-            career(it) {
-              return `<strong>${careerAge} years</strong> of ${it} experience, mainly developing web applications, web services, console applications, REST APIs - using the following languages, frameworks, tools (stronger to weaker + tools):<br/>C#, .NET (v4.5 -> current), JavaScript, Python, MSSQL, Blazor, PostgreSQL, React, Django, TypeScript, Angular, Vue, Visual Studio, VSCode, Vim, GitHub, TFS, Azure DevOps.`;
+            career(it, isSkillCard) {
+              const skillsStr = isSkillCard
+                ? "<span class='skillcard-container'>" + skills.map(skill => `<span class='skillcard'>${skill}</span>`).join('') + "</span>"
+                : skills.join(', ');
+              return `<strong>${careerAge} years</strong> of ${it} experience, mainly developing web applications, web services, console applications, REST APIs - using the following languages, frameworks, tools (stronger to weaker + tools):<br/>${skillsStr}`;
             },
           },
           setPage(page) {
@@ -437,7 +455,8 @@
           },
           get careerDescription() {
             const it = this.isEmoji ? emojiTexts.it[1] : emojiTexts.it[0];
-            return this.descriptions.career(it);
+            const isSkillCard = this.currentPage !== "terminal";
+            return this.descriptions.career(it, isSkillCard);
           },
           get linksForTerminal() {
             let html = "<ul>";
@@ -493,51 +512,39 @@
             this.darkMode = !this.darkMode;
             particlesConfig.particles.color.value = this.darkMode
               ? "#fff"
-              : "#888";
+              : "#03332a";
             particlesJS("particles-js", particlesConfig);
           },
-          typewriter() {
-            const currentPhrase = welcomePhrases[phraseIndex];
-
-            // Update the h1 with the current substring
-            if (isDeleting) {
-              letterIndex--;
-              // Remove the last character
-              typewriterElement.innerHTML = currentPhrase
-                .substring(0, letterIndex)
-                .split("")
-                .map((char) => `<span>${char}</span>`)
-                .join("");
-            } else {
-              // Add new character
-              letterIndex++;
-              // Create a new span for the new character
-              const newChar = currentPhrase[letterIndex - 1];
-              const span = document.createElement("span");
-              span.textContent = newChar;
-              span.className = "fade-in"; // Add a class for the fade-in effect
-              typewriterElement.appendChild(span);
+          async typeText(text) {
+            for (let i = 0; i <= text.length; i++) {
+              typewriterElement.textContent = text.slice(0, i);
+              await new Promise((resolve) => setTimeout(resolve, typingSpeed));
             }
+          },
+          async deleteText(text) {
+            for (let i = text.length; i >= 0; i--) {
+              typewriterElement.textContent = text.slice(0, i);
+              await new Promise((resolve) =>
+                setTimeout(resolve, deletingSpeed)
+              );
+            }
+          },
+          async typewriter() {
+            let phraseIndex = 0;
 
-            // Handle typing or deleting
-            if (!isDeleting && letterIndex === currentPhrase.length) {
-              setTimeout(() => {
-                isDeleting = true;
-              }, delayBetweenPhrases);
-            } else if (isDeleting && letterIndex === 0) {
-              isDeleting = false;
+            while (true) {
+              const phrase = welcomePhrases[phraseIndex];
+              typewriterElement.classList.remove("blinking");
+              await this.typeText(phrase);
+              typewriterElement.classList.add("blinking");
+              await new Promise((resolve) =>
+                setTimeout(resolve, pauseDuration)
+              );
+              typewriterElement.classList.remove("blinking");
+              await this.deleteText(phrase);
+
               phraseIndex = (phraseIndex + 1) % welcomePhrases.length;
-              // Clear the innerHTML for the next phrase
-              typewriterElement.innerHTML = "";
             }
-
-            // Adjust the typing speed for a smoother effect
-            const currentTypingSpeed = isDeleting
-              ? typingSpeed / 2
-              : typingSpeed;
-
-            // Recursive call to continue typing
-            setTimeout(this.typewriter.bind(this), currentTypingSpeed);
           },
           init() {
             if (
