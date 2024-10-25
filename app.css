@@ -225,8 +225,10 @@ a:hover {
   font-family: Poppins, sans-serif;
 }
 .terminal-container {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #bfb8a9;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: inset 1px 1px 2px 0 rgba(255, 255, 255, 0.3),
+    inset -1px -1px 0 0 rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
   color: #444;
   font-family: "Roboto Mono", monospace;
@@ -377,7 +379,11 @@ a:hover {
   margin-top: 0.2rem;
   white-space: nowrap;
 }
-#welcome-name {
+.career-text {
+  display: flex;
+  flex-direction: column;
+}
+.welcome-name {
   margin-top: 0;
 }
 
@@ -429,6 +435,7 @@ h6 {
 }
 .dark .terminal-container {
   color: #f5eddc;
+  background-color: #021f19;
 }
 .dark .terminal-input-arrow {
   color: #b4d9f9;
@@ -450,10 +457,10 @@ h6 {
 }
 .dark .skillcard {
   background-color: #d7d0c0;
-  color:#021f19;
+  color: #021f19;
 }
 
-@media (min-width: 641px) {
+@media (min-width: 768px) {
   .main-container {
     align-items: flex-start;
     flex-direction: row;
@@ -514,18 +521,16 @@ h6 {
   .terminal-container {
     max-width: 1000px;
   }
+  .career-text {
+    flex-direction: row;
+  }
 }
 
 /* Particles JS */
 #particles-js {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
-  background-color: #f5eddc;
-  background-image: url("");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 50% 50%;
   z-index: -2;
 }
 

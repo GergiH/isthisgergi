@@ -124,7 +124,7 @@
               <div class="welcome-typewriter-container">
                 <h1 class="welcome-typewriter"></h1>
               </div>
-              <h1 id="welcome-name">Gergely Horváth</h1>
+              <h1 class="welcome-name">Gergely Horváth</h1>
               <h5>
                 <i class="fa fa-laptop" aria-hidden="true"></i>
                 WEB-/SOFTWARE DEVELOPER
@@ -255,7 +255,7 @@
         "Hallo, ich bin",
         "こんにちは、私は",
         "你好，我是",
-        "हाय मैं हूँ"
+        "हाय मैं हूँ",
       ];
       const age = new Date().getFullYear() - 1990;
       const careerAge = new Date().getFullYear() - 2016;
@@ -440,9 +440,18 @@
             },
             career(it, isSkillCard) {
               const skillsStr = isSkillCard
-                ? "<span class='skillcard-container'>" + skills.map(skill => `<span class='skillcard'>${skill}</span>`).join('') + "</span>"
-                : skills.join(', ');
-              return `<strong>${careerAge} years</strong> of ${it} experience, mainly developing web applications, web services, console applications, REST APIs - using the following languages, frameworks, tools (stronger to weaker + tools):<br/>${skillsStr}`;
+                ? "<span class='skillcard-container'>" +
+                  skills
+                    .map((skill) => `<span class='skillcard'>${skill}</span>`)
+                    .join("") +
+                  "</span>"
+                : skills.join(", ");
+
+              if (isSkillCard) {
+                return `<div class='career-text'><div><strong>${careerAge} years</strong> of ${it} experience, mainly developing web applications, web services, console applications, REST APIs - using the following languages, frameworks, tools (stronger to weaker + tools)</div><div>${skillsStr}</div></div>`;
+              }
+
+              return `<strong>${careerAge} years</strong> of ${it} experience, mainly developing web applications, web services, console applications, REST APIs - using the following languages, frameworks, tools (stronger to weaker + tools)<br/><strong>${skillsStr}</strong>`;
             },
           },
           setPage(page) {
