@@ -13,9 +13,11 @@
   --color-dark: #162e29;
   --color-dark-muted: #0f2420;
   --color-light: #f5eddc;
-  --color-light-muted: #b5b1ac;
+  --color-light-muted: #b7ae9d;
   --color-welcome-light: #d3ac00;
   --color-welcome-dark: #e5be63;
+  --color-portrait-bg: #2f524c;
+  --color-portrait-bg-dark: #d1ccc2;
   --font-family-base: "Poppins", sans-serif;
   --font-family-monospace: "Roboto Mono", monospace;
   --transition-duration: 0.3s;
@@ -33,7 +35,7 @@
 
 body {
   font-family: var(--font-family-base);
-  background-color: var(--color-background);
+  background-color: var(--color-light);
   color: var(--color-primary);
   line-height: 1.6;
 }
@@ -88,7 +90,7 @@ h4 {
 h5,
 h6 {
   color: var(--color-primary-muted);
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
 }
 .dark h2,
 h3,
@@ -378,7 +380,7 @@ h6 {
 
 .content-home {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .content-terminal {
@@ -397,27 +399,106 @@ h6 {
   padding: 0.6rem 1rem;
 }
 
+.home-container {
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
 .home-texts {
   display: flex;
   flex-direction: column;
+  min-width: 210px;
 }
 
 .portrait-container {
-  border: 3px solid rgba(0, 0, 0, 0.15);
-  border-radius: 1rem;
-  min-width: 92px;
-  height: 180px;
+  height: 140px;
   margin: 0.5rem;
-  overflow: hidden;
-}
-.dark .portrait-container {
-  border: 3px solid rgba(245, 237, 220, 0.15);
+  min-width: 92px;
+  position: relative;
 }
 .portrait-image {
-  width: 100%;
+  border-radius: 3rem;
   height: 100%;
   object-fit: cover;
   object-position: top;
+  width: 100%;
+}
+
+/* --- Moving shapes behind the portrait picture --- */
+.portrait-bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  animation: float 6s ease-in-out infinite alternate;
+}
+
+.shape1 {
+  width: 120px;
+  height: 120px;
+  bottom: -20px;
+  left: -10px;
+  background-color: var(--color-portrait-bg);
+  animation-duration: 7s;
+}
+.dark .shape1 {
+  background-color: var(--color-portrait-bg-dark);
+}
+
+.shape2 {
+  width: 120px;
+  height: 120px;
+  top: -10px;
+  left: 30px;
+  background-color: var(--color-portrait-bg);
+  animation-duration: 6s;
+}
+.dark .shape2 {
+  background-color: var(--color-portrait-bg-dark);
+}
+
+.shape3 {
+  width: 110px;
+  height: 110px;
+  top: 5px;
+  left: 10px;
+  background-color: var(--color-portrait-bg);
+  animation-duration: 8s;
+}
+.dark .shape3 {
+  background-color: var(--color-portrait-bg-dark);
+}
+
+.shape4 {
+  width: 150px;
+  height: 150px;
+  bottom: -10px;
+  left: 15px;
+  background-color: var(--color-portrait-bg);
+  animation-duration: 5s;
+}
+.dark .shape4 {
+  background-color: var(--color-portrait-bg-dark);
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(5px, -2px);
+  }
+  50% {
+    transform: translate(-2px, 5px);
+  }
+  75% {
+    transform: translate(-5px, -2px);
+  }
+  100% {
+    transform: translate(2px, 5px);
+  }
 }
 
 .search-container {
@@ -592,6 +673,10 @@ h6 {
     flex-direction: column;
   }
 
+  .home-container {
+    gap: 0;
+  }
+
   .menu {
     box-sizing: border-box;
     display: flex;
@@ -622,6 +707,10 @@ h6 {
     opacity: 1;
   }
 
+  .portrait-container {
+    height: 120px;
+  }
+
   .search {
     width: 100%;
   }
@@ -632,6 +721,23 @@ h6 {
 
   .search-input {
     width: 100%;
+  }
+  
+  .shape1 {
+    width: 100px;
+    height: 100px;
+  }
+  .shape2 {
+    width: 100px;
+    height: 100px;
+  }
+  .shape3 {
+    width: 90px;
+    height: 90px;
+  }
+  .shape4 {
+    width: 130px;
+    height: 130px;
   }
 }
 
