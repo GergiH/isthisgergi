@@ -7,11 +7,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Poppins"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto+Mono"
+      href="https://fonts.googleapis.com/css?family=Poppins|Roboto+Mono"
     />
     <link
       rel="stylesheet"
@@ -24,212 +20,165 @@
     ></script>
     <script src="particles.min.js"></script>
   </head>
+
   <body :class="{ 'dark': darkMode }" x-data="app()" x-init="init()">
     <div id="particles-js"></div>
-    <div class="container">
-      <div class="search-container">
-        <div class="search-plus-darkmode">
-          <div class="search">
+    <header class="header p-2">
+      <div class="search-container flex flex-row">
+        <div class="search">
+          <div class="search-input-container">
             <input
-              class="search-input"
               type="text"
-              placeholder="TODO: search has no real use case yet"
+              placeholder="TODO: Search does not have a real use as of now..."
+              class="input search-input"
               x-model="searchTerm"
             />
             <button
-              class="clear-button"
+              class="button clear-button bg-accent"
               @click="clearSearch"
               x-show="searchTerm.length > 0"
-              x-transition:enter.duration.0ms
-              x-transition:leave.duration.0ms
               aria-label="Clear search input"
             >
               <i class="uil uil-x"></i>
             </button>
           </div>
-          <button class="dark-mode-button" @click="toggleDarkMode()">
-            <i
-              class="uil uil-moon"
-              x-show="darkMode"
-              x-transition:enter.duration.300ms
-              x-transition:leave.duration.0ms
-            ></i>
-            <i
-              class="uil uil-sun"
-              x-show="!darkMode"
-              x-transition:enter.duration.300ms
-              x-transition:leave.duration.0ms
-            ></i>
-          </button>
+          <span class="sub-comment" x-show="searchTerm.length > 0"
+            >Press [ESC] to cancel</span
+          >
         </div>
+      </div>
+      <button class="button dark-mode-button" @click="toggleDarkMode()">
+        <i
+          class="uil"
+          :class="{ 'uil-moon': darkMode, 'uil-sun': !darkMode }"
+        ></i>
+      </button>
+    </header>
 
-        <span
-          class="sub-comment"
-          x-show="searchTerm.length > 0"
-          x-transition:enter.duration.500ms
-          x-transition:leave.duration.100ms
+    <main class="flex flex-row">
+      <nav class="menu flex">
+        <a
+          href="#"
+          class="menu-link"
+          :class="{'menu-link': true, 'inactive': !isVisible('home'), 'active': currentPage === 'home'}"
+          @click.prevent="setPage('home')"
         >
-          press [ESC] to cancel
-        </span>
-      </div>
+          <i class="uil uil-estate"></i>
+          <span class="menu-link-tooltip">Home</span>
+        </a>
+        <a
+          href="#"
+          class="menu-link"
+          :class="{'menu-link': true, 'inactive': !isVisible('text'), 'active': currentPage === 'text'}"
+          @click.prevent="setPage('text')"
+        >
+          <i class="uil uil-text-fields"></i>
+          <span class="menu-link-tooltip">Textual</span>
+        </a>
+        <a
+          href="#"
+          class="menu-link"
+          :class="{'menu-link': true, 'inactive': !isVisible('terminal'), 'active': currentPage === 'terminal'}"
+          @click.prevent="setPage('terminal')"
+        >
+          <i class="uil uil-brackets-curly"></i>
+          <span class="menu-link-tooltip">Terminal</span>
+        </a>
+        <a
+          href="#"
+          class="menu-link"
+          :class="{'menu-link': true, 'keyboard': !isVisible('home'), 'active': currentPage === 'keyboard'}"
+          @click.prevent="setPage('keyboard')"
+        >
+          <i class="uil uil-keyboard"></i>
+          <span class="menu-link-tooltip">Keyboard</span>
+        </a>
+      </nav>
 
-      <div class="main-container">
-        <div class="menu">
-          <a
-            href="#"
-            :class="{'menu-link': true, 'inactive': !isVisible('home'), 'active': currentPage === 'home'}"
-            @click.prevent="setPage('home')"
-          >
-            <i class="uil uil-estate"></i>
-            <span class="menu-link-tooltip">Home</span>
-          </a>
-          <a
-            href="#"
-            :class="{'menu-link': true, 'inactive': !isVisible('text'), 'active': currentPage === 'text'}"
-            @click.prevent="setPage('text')"
-          >
-            <i class="uil uil-text-fields"></i>
-            <span class="menu-link-tooltip">Textual</span>
-          </a>
-          <a
-            href="#"
-            :class="{'menu-link': true, 'inactive': !isVisible('terminal'), 'active': currentPage === 'terminal'}"
-            @click.prevent="setPage('terminal')"
-          >
-            <i class="uil uil-brackets-curly"></i>
-            <span class="menu-link-tooltip">Terminal</span>
-          </a>
-          <a
-            href="#"
-            :class="{'menu-link': true, 'inactive': !isVisible('keyboard'), 'active': currentPage === 'keyboard'}"
-            @click.prevent="setPage('keyboard')"
-          >
-            <i class="uil uil-keyboard"></i>
-            <span class="menu-link-tooltip">Keyboard</span>
-          </a>
-        </div>
-
-        <div class="content">
-          <div
-            class="content-home"
-            x-show="currentPage === 'home'"
-            x-transition:enter="transition duration-500 delay-300 transform ease-in"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition duration-300 transform ease-in"
-            x-transition:leave-start="translate-x-0 opacity-100"
-            x-transition:leave-end="translate-x-full opacity-0"
-          >
-            <div class="home-texts">
-              <div class="welcome-typewriter-container">
-                <h1 class="welcome-typewriter"></h1>
-              </div>
-              <h1 class="welcome-name">Gergely Horváth</h1>
-              <h5>
-                <i class="fa fa-laptop" aria-hidden="true"></i>
-                WEB-/SOFTWARE DEVELOPER
-                <i class="fa fa-code" aria-hidden="true"></i>
-              </h5>
-              <p>
-                A minimalistic page for a brief introduction to my profile, and
-                a little playground of mine.
-              </p>
+      <section class="content">
+        <!-- Home Content -->
+        <div class="content-home" x-show="currentPage === 'home'" x-transition>
+          <div class="home-texts">
+            <div class="welcome-typewriter-container">
+              <h1 class="welcome-typewriter"></h1>
             </div>
-            <div class="portrait-container">
-              <img src="./g.jpg" alt="Portrait" class="portrait-image" />
-            </div>
+            <h1 class="welcome-name">Gergely Horváth</h1>
+            <h5>WEB-/SOFTWARE DEVELOPER</h5>
+            <p>
+              A minimalistic page for a brief introduction to my profile, and a
+              little playground of mine.
+            </p>
           </div>
-
-          <div
-            class="content-text"
-            x-show="currentPage === 'text'"
-            x-transition:enter="transition duration-500 delay-300 transform ease-in"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition duration-300 transform ease-in"
-            x-transition:leave-start="translate-x-0 opacity-100"
-            x-transition:leave-end="translate-x-full opacity-0"
-          >
-            <div class="content-about">
-              <h2>About</h2>
-              <div class="about-container">
-                <p x-html="aboutDescription"></p>
-              </div>
-            </div>
-
-            <div class="content-career">
-              <h2>Career</h2>
-              <p x-html="careerDescription"></p>
-            </div>
-            <div class="content-links">
-              <h2>Links</h2>
-              <div>
-                <table>
-                  <thead></thead>
-                  <tbody>
-                    <template x-for="lnk in links">
-                      <tr>
-                        <td x-html="lnk[2]"></td>
-                        <td>
-                          <a
-                            x-bind:href="lnk[0]"
-                            x-html="lnk[1]"
-                            class="link"
-                            target="_blank"
-                          ></a>
-                        </td>
-                      </tr>
-                    </template>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="content-terminal"
-            x-show="currentPage === 'terminal'"
-            x-transition:enter="transition duration-500 delay-300 transform ease-in"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition duration-300 transform ease-in"
-            x-transition:leave-start="translate-x-0 opacity-100"
-            x-transition:leave-end="translate-x-full opacity-0"
-          >
-            <div class="terminal-container">
-              <ul class="terminal-lines-list">
-                <template x-for="line in terminalLines">
-                  <li x-html="line"></li>
-                </template>
-              </ul>
-              <div class="terminal-input-container">
-                <span class="terminal-input-arrow">>&nbsp;</span>
-                <input
-                  type="text"
-                  class="terminal-input"
-                  placeholder="Type 'help' for available commands..."
-                  x-model="commandInput"
-                  @keydown.enter.prevent="handleCommand"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="content-keyboard"
-            x-show="currentPage === 'keyboard'"
-            x-transition:enter="transition duration-500 delay-300 transform ease-in"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition duration-300 transform ease-in"
-            x-transition:leave-start="translate-x-0 opacity-100"
-            x-transition:leave-end="translate-x-full opacity-0"
-          >
-            Coming soon... (soon? you sure?)
+          <div class="portrait-container mt-2">
+            <img src="./g.jpg" alt="Portrait" class="portrait-image" />
           </div>
         </div>
-      </div>
-    </div>
+
+        <!-- Text Content -->
+        <div class="content-text" x-show="currentPage === 'text'" x-transition>
+          <h2>About</h2>
+          <p x-html="aboutDescription"></p>
+
+          <h2>Career</h2>
+          <p x-html="careerDescription"></p>
+
+          <h2>Links</h2>
+          <table class="table">
+            <tbody>
+              <template x-for="lnk in links">
+                <tr>
+                  <td x-html="lnk[2]"></td>
+                  <td>
+                    <a
+                      class="table-link"
+                      :href="lnk[0]"
+                      x-html="lnk[1]"
+                      target="_blank"
+                    ></a>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Terminal Content -->
+        <div
+          class="content-terminal"
+          x-show="currentPage === 'terminal'"
+          x-transition
+        >
+          <ul class="terminal-lines-list">
+            <template x-for="line in terminalLines">
+              <li x-html="line"></li>
+            </template>
+          </ul>
+          <div class="terminal--command-line flex">
+            <span>>&nbsp;</span>
+            <input
+              type="text"
+              placeholder="Type 'help' for available commands..."
+              x-model="commandInput"
+              @keydown.enter.prevent="handleCommand"
+              class="terminal-input"
+            />
+          </div>
+        </div>
+
+        <!-- Keyboard Content -->
+        <div
+          class="content-keyboard text-center"
+          x-show="currentPage === 'keyboard'"
+          x-transition
+        >
+          <p>Coming soon... (soon? you sure?)</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer p-3 text-center">
+      <p>Made with ♥ by Gergely Horváth</p>
+    </footer>
 
     <script>
       const pageTags = {
