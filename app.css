@@ -101,6 +101,14 @@ h6 {
   color: var(--color-light-muted);
 }
 
+::placeholder {
+  color: var(--color-secondary);
+}
+
+.dark ::placeholder {
+  color: var(--color-primary-muted);
+}
+
 /* --- Utility Classes --- */
 .mt-1 {
   margin-top: 0.5rem;
@@ -422,7 +430,7 @@ h6 {
 }
 .portrait-image {
   border-radius: 3rem;
-  height: 100%;
+  height: 140px;
   object-fit: cover;
   object-position: top;
   width: 100%;
@@ -710,6 +718,10 @@ h6 {
   }
 
   .portrait-container {
+    height: 120px;
+  }
+
+  .portrait-image {
     height: 120px;
   }
 
