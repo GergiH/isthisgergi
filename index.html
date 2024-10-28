@@ -87,7 +87,16 @@
         <a
           href="#"
           class="menu-link"
-          :class="{'menu-link': true, 'keyboard': !isVisible('home'), 'active': currentPage === 'keyboard'}"
+          :class="{'menu-link': true, 'inactive': !isVisible('game'), 'active': currentPage === 'game'}"
+          @click.prevent="setPage('game')"
+        >
+          <i class="uil uil-play"></i>
+          <span class="menu-link-tooltip">Game</span>
+        </a>
+        <a
+          href="#"
+          class="menu-link"
+          :class="{'menu-link': true, 'keyboard': !isVisible('keyboard'), 'active': currentPage === 'keyboard'}"
           @click.prevent="setPage('keyboard')"
         >
           <i class="uil uil-keyboard"></i>
@@ -115,7 +124,7 @@
               <img src="./g.png" alt="Portrait" class="portrait-image" />
             </div>
           </div>
-          <p>
+          <p class="mb-6">
             A minimalistic page for a brief introduction to my profile, and a
             little playground of mine.
           </p>
@@ -172,19 +181,45 @@
           </div>
         </div>
 
+        <div
+          class="content-game"
+          x-show="currentPage === 'game'"
+          x-transition
+          x-init="initializeGameMap()"
+          @keydown.window="movePlayer"
+        >
+          <p class="mb-2">Use the arrow keys ◀▲▶▼ on the keyboard, or the D-Pad, to move.</p>
+          <div id="map" class="map-container"></div>
+          <div class="d-pad">
+            <button class="d-pad-button up" @click="movePlayerDpad('up')">
+              ▲
+            </button>
+            <button class="d-pad-button left" @click="movePlayerDpad('left')">
+              ◀
+            </button>
+            <button class="d-pad-button center"></button>
+            <button class="d-pad-button right" @click="movePlayerDpad('right')">
+              ▶
+            </button>
+            <button class="d-pad-button down" @click="movePlayerDpad('down')">
+              ▼
+            </button>
+          </div>
+        </div>
+
         <!-- Keyboard Content -->
         <div
           class="content-keyboard"
           x-show="currentPage === 'keyboard'"
           x-transition
         >
-          <p>Coming soon... (soon? you sure?)</p>
+          <p class="mb-6">Coming soon... (soon? you sure?)</p>
         </div>
       </section>
     </main>
 
     <footer class="footer p-3 text-center">
-      <p>Made with ♥ by Gergely Horváth</p>
+      <p class="mb-4">Made with ♥ by Gergely Horváth</p>
     </footer>
 
     <script>
@@ -199,6 +234,7 @@
           "github",
           "linkedin",
         ],
+        game: ["game"],
         keyboard: ["keyboard", "coming soon"],
       };
       const welcomePhrases = [
@@ -374,13 +410,12 @@
         retina_detect: true,
       };
 
-      // Changing welcome text setup
       const typewriterElement =
         document.getElementsByClassName("welcome-typewriter")[0];
       // Speed settings
-      const typingSpeed = 200; // milliseconds per character
-      const pauseDuration = 2000; // milliseconds to pause after typing
-      const deletingSpeed = 70; // milliseconds per character deletion
+      const typingSpeed = 200;
+      const pauseDuration = 2000;
+      const deletingSpeed = 70;
 
       function app() {
         return {
@@ -390,6 +425,25 @@
           isEmoji: true,
           terminalLines: [],
           commandInput: "",
+          canMove: true,
+          playerPosition: { row: 1, col: 2 },
+          gameMap: [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 1, 1, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0, 0, 0, 0],
+            [0, 1, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 0, 0],
+            [0, 0, 1, 0, 1, 1, 0, 0],
+            [0, 0, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+          ],
           descriptions: {
             about(old, flag) {
               return `A <strong>${age} years</strong> ${old} software developer from ${flag}. Basically interested in any topic, just to name a few: programming (obviously), cooking, fitness, astrology, languages, psychology.<br/><br/>When not coding, he's either watching random animal videos, gaming, having a drink with friends, or watching sports.`;
@@ -412,7 +466,7 @@
           },
           setPage(page) {
             this.currentPage = page;
-            this.isEmoji = page !== "terminal";
+            this.isEmoji = page !== "terminal" && page !== "game";
           },
           get aboutDescription() {
             // Need to handle emoji texts here because 'this' has a different scope inside the 'descriptions' functions
@@ -424,7 +478,8 @@
           },
           get careerDescription() {
             const it = this.isEmoji ? emojiTexts.it[1] : emojiTexts.it[0];
-            const isSkillCard = this.currentPage !== "terminal";
+            const isSkillCard =
+              this.currentPage !== "terminal" && this.currentPage !== "game";
             return this.descriptions.career(it, isSkillCard);
           },
           get linksForTerminal() {
@@ -435,6 +490,16 @@
             html += "</ul>";
 
             return html;
+          },
+          gameMessages(coordinates) {
+            switch (coordinates) {
+              case "5,1":
+                return this.aboutDescription;
+              case "7,6":
+                return this.careerDescription;
+              case "13,5":
+                return this.linksForTerminal;
+            }
           },
           handleCommand() {
             const command = this.commandInput.trim();
@@ -483,6 +548,144 @@
               ? "#fff"
               : "#03332a";
             particlesJS("particles-js", particlesConfig);
+          },
+          initializeGameMap() {
+            this.renderMap();
+          },
+          renderMap() {
+            const mapContainer = document.getElementById("map");
+            mapContainer.innerHTML = ""; // Clear the map
+
+            this.gameMap.forEach((row, rowIndex) => {
+              row.forEach((cell, colIndex) => {
+                const mapCell = document.createElement("div");
+                mapCell.classList.add("map-cell");
+
+                if (
+                  rowIndex === this.playerPosition.row &&
+                  colIndex === this.playerPosition.col
+                ) {
+                  const posKey = `${rowIndex},${colIndex}`;
+                  const message = this.gameMessages(posKey);
+                  mapCell.innerHTML = `<div class="player-message">
+                                  ${
+                                    message
+                                      ? `<span class="message">${message}</span>`
+                                      : ""
+                                  }
+                                  <i class="uil uil-car-sideview player"></i>
+                                </div>`;
+                } else if (cell === 0) {
+                  mapCell.innerHTML = '<i class="uil uil-trees tree"></i>';
+                } else if (rowIndex === 5 && colIndex === 1) {
+                  mapCell.innerHTML =
+                    '<i class="uil uil-user-square player-station"></i>';
+                } else if (rowIndex === 7 && colIndex === 6) {
+                  mapCell.innerHTML =
+                    '<i class="uil uil-bag player-station"></i>';
+                } else if (rowIndex === 13 && colIndex === 5) {
+                  mapCell.innerHTML =
+                    '<i class="uil uil-link player-station"></i>';
+                }
+
+                mapContainer.appendChild(mapCell);
+              });
+            });
+          },
+          isWalkable(row, col) {
+            return this.gameMap[row] && this.gameMap[row][col] === 1;
+          },
+          movePlayer(event) {
+            if (
+              ["INPUT", "TEXTAREA", "SELECT"].includes(
+                document.activeElement.tagName
+              )
+            ) {
+              return;
+            }
+
+            if (
+              !this.canMove &&
+              !event.key != "ArrowUp" &&
+              !event.key != "ArrowDown" &&
+              !event.key != "ArrowLeft" &&
+              !event.key != "ArrowRight"
+            ) {
+              return;
+            }
+
+            this.canMove = false; // Block movement until keyup event
+
+            let newRow = this.playerPosition.row;
+            let newCol = this.playerPosition.col;
+
+            switch (event.key) {
+              case "ArrowUp":
+                newRow -= 1;
+                break;
+              case "ArrowDown":
+                newRow += 1;
+                break;
+              case "ArrowLeft":
+                newCol -= 1;
+                break;
+              case "ArrowRight":
+                newCol += 1;
+                break;
+              default:
+                setTimeout(() => {
+                  this.canMove = true;
+                }, 100);
+                return;
+            }
+
+            event.preventDefault();
+
+            if (this.isWalkable(newRow, newCol)) {
+              this.playerPosition = { row: newRow, col: newCol };
+              // TODO: improve handling of the player movement
+              // Not optimal to always re-render the whole game, but it will do for now...
+              this.renderMap();
+            }
+
+            // Re-enable movement after the key is released
+            setTimeout(() => {
+              this.canMove = true;
+            }, 100);
+          },
+          movePlayerDpad(direction) {
+            this.canMove = false;
+            let newRow = this.playerPosition.row;
+            let newCol = this.playerPosition.col;
+
+            switch (direction) {
+              case "up":
+                newRow -= 1;
+                break;
+              case "down":
+                newRow += 1;
+                break;
+              case "left":
+                newCol -= 1;
+                break;
+              case "right":
+                newCol += 1;
+                break;
+              default:
+                return;
+            }
+
+            if (this.isWalkable(newRow, newCol)) {
+              this.playerPosition = { row: newRow, col: newCol };
+              // TODO: improve handling of the player movement
+              // Not optimal to always re-render the whole game, but it will do for now...
+              this.renderMap();
+            }
+
+            // Re-enable movement after the key is released
+            setTimeout(() => {
+              this.canMove = true;
+            }, 100);
           },
           async typeText(text) {
             for (let i = 0; i <= text.length; i++) {

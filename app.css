@@ -7,7 +7,7 @@
   --color-secondary-muted: #9d947e;
   --color-secondary-dark: #d7d0c0;
   --color-accent: #335879;
-  --color-accent-dark: #b4d9f9;
+  --color-accent-dark: #8ecbff;
   --color-accent-muted: #77a7c9;
   --color-background: #ecf0f1;
   --color-dark: #162e29;
@@ -70,7 +70,6 @@ a:hover {
 
 p {
   color: var(--color-secondary);
-  margin-bottom: 3rem;
 }
 .dark p {
   color: var(--color-secondary-dark);
@@ -129,6 +128,15 @@ h6 {
 }
 .mb-3 {
   margin-bottom: 1.5rem;
+}
+.mb-4 {
+  margin-bottom: 2rem;
+}
+.mb-5 {
+  margin-bottom: 2.5rem;
+}
+.mb-6 {
+  margin-bottom: 3rem;
 }
 
 .p-1 {
@@ -396,6 +404,10 @@ h6 {
   flex-direction: column;
 }
 
+.content-game {
+  height: 690px;
+}
+
 .content-terminal {
   font-family: var(--font-family-monospace);
   font-size: 14px;
@@ -424,6 +436,122 @@ h6 {
   display: flex;
   flex-direction: column;
   min-width: 210px;
+}
+
+.map-container {
+  display: grid;
+  grid-template-columns: repeat(8, 38px);
+  gap: 4px;
+  position: absolute;
+}
+.map-cell {
+  align-items: center;
+  display: flex;
+  height: 38px;
+  justify-content: center;
+  width: 38px;
+}
+.player {
+  color: var(--color-primary);
+}
+.dark .player {
+  color: var(--color-primary-dark);
+}
+.player-station {
+  color: var(--color-welcome-light);
+}
+.dark .player-station {
+  color: var(--color-welcome-dark);
+}
+.player-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tree {
+  color: #3a933d;
+}
+
+.message {
+  background-color: var(--color-light-muted);
+  bottom: 20px;
+  border: 2px solid var(--color-light);
+  border-radius: 1rem;
+  box-shadow: 0px 0px 16px -6px #000;
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  position: fixed;
+  right: 10px;
+  text-align: center;
+  width: 230px;
+  z-index: 2;
+}
+.dark .message {
+  background-color: var(--color-dark-muted);
+  color: var(--color-light);
+}
+.message > ul {
+  list-style: none;
+}
+
+.d-pad {
+  align-items: center;
+  bottom: 40px;
+  display: grid;
+  gap: 5px;
+  grid-template-areas:
+    ". up ."
+    "left center right"
+    ". down .";
+  grid-template-columns: 50px 50px 50px;
+  grid-template-rows: 50px 50px 50px;
+  justify-content: center;
+  left: 10px;
+  position: fixed;
+  width: 160px;
+  z-index: 4;
+}
+
+.d-pad-button {
+  align-items: center;
+  background-color: #7a7366aa;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.5rem;
+  height: 50px;
+  justify-content: center;
+  transition: background-color 0.2s;
+  width: 50px;
+  z-index: 5;
+}
+.dark .d-pad-button {
+  background-color: #0f2420aa;
+}
+
+.d-pad-button:hover {
+  background-color: #77a7c9aa;
+}
+
+.d-pad-button.up {
+  grid-area: up;
+}
+.d-pad-button.down {
+  grid-area: down;
+}
+.d-pad-button.left {
+  grid-area: left;
+}
+.d-pad-button.right {
+  grid-area: right;
+}
+.d-pad-button.center {
+  grid-area: center;
+  background-color: transparent;
+  cursor: default;
 }
 
 .portrait-container {
